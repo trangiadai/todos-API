@@ -66,4 +66,10 @@ public class BoardController {
         BoardResponse updatedBoard = boardService.updateBoard(new ObjectId(request.getCurrentCardId()),new ObjectId(request.getPrevColumnId()), preCardOrder, new ObjectId(request.getNextColumnId()), nextCardOrder);
         return ResponseEntity.ok(updatedBoard);
     }
+
+    @GetMapping("/getBoard/{userId}")
+    public BoardResponse getBoardByUserId(@PathVariable String userId){
+        ObjectId boardId = boardService.getBoardByUserId(userId);
+        return boardService.getBoardDetailById(boardId);
+    }
 }

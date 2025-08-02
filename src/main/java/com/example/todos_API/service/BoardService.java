@@ -31,7 +31,7 @@ public class BoardService {
     @Autowired
     private CardRepository cardRepository;
 
-    public Board createBoard(BoardCreationRequest request) {
+    public Board createBoard(BoardCreationRequest request, String userId) {
         Board board = new Board();
         board.setTitle(request.getTitle());
         board.setDescription(request.getDescription());
@@ -40,6 +40,7 @@ public class BoardService {
         board.setUpdatedAt(request.getUpdatedAt());
         board.setColumnOrderIds(request.getColumnOrderIds());
         board.setDestroy(request.isDestroy());
+        board.setUserID(userId);
         return boardRepository.save(board);
     }
     public List<Board> getBoard() {
@@ -176,6 +177,10 @@ public class BoardService {
             board.setUpdatedAt(new Date());
             boardRepository.save(board);
         }
+    }
+
+    public ObjectId getBoardByUserId(String userId){
+        return boardRepository.findByUserID(userId).get_id();
     }
 
 }

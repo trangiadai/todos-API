@@ -18,6 +18,7 @@ import java.util.List;
 public class Board {
     @Id
     private ObjectId _id;
+    private String userID;
     private String title;
     private String description;
     private String type;
