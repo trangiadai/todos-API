@@ -93,4 +93,20 @@ public class CardController {
         return cardIdObj != null ? cardService.getCardById(cardIdObj) : null;
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCard(@PathVariable String id) {
+        try {
+            if (!ObjectId.isValid(id)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid card ID"));
+            }
+
+            ObjectId cardId = new ObjectId(id);
+            cardService.deleteCard(cardId);
+
+            return ResponseEntity.ok(Map.of("message", "Card deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }
