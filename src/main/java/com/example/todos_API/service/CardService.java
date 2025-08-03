@@ -53,4 +53,10 @@ public class CardService {
                 .orElseThrow(() -> new RuntimeException("Card not found"));
     }
 
+    public Card editCard(ObjectId cardId, String title) {
+        Card card = getCardById(cardId);
+        card.setTitle(title);
+        return cardRepository.save(card);
+    }
+
 }

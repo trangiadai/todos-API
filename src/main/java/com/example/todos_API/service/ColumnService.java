@@ -76,6 +76,14 @@ public class ColumnService {
         return convertToColumnResponse(column);
     }
 
+    public ColumnResponse editColunm(String title, ObjectId columnId) {
+        System.out.println(columnId);
+        System.out.println(title);
+        Column column = getColumnById(columnId);
+        column.setTitle(title);
+        return convertToColumnResponse(columnRepository.save(column));
+    }
+
 
 
 

@@ -5,6 +5,7 @@ import com.example.todos_API.dto.request.CardCreationRequest;
 import com.example.todos_API.dto.request.CardResponse;
 import com.example.todos_API.entity.Card;
 import com.example.todos_API.service.CardService;
+import com.example.todos_API.service.ColumnService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import java.util.Map;
 public class CardController {
     @Autowired
     private CardService cardService;
+    @Autowired
+    private ColumnService columnService;
 
     @GetMapping
     public List<Card> getCard() {
@@ -66,4 +69,28 @@ public class CardController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    @PostMapping("/edit")
+    public Card editCard(
+            @RequestParam(required = false) String cardId,
+            @RequestParam(required = false) String colunmId,
+            @RequestParam String cardTitle,
+            @RequestParam String colunmTitle
+    ) {
+        ObjectId cardIdObj = null;
+        ObjectId colunmIdObj = null;
+
+        if (cardId != null && !cardId.isEmpty()) {
+            cardIdObj = new ObjectId(cardId);
+            cardService.editCard(cardIdObj, cardTitle);
+        }
+
+        if (colunmId != null && !colunmId.isEmpty()) {
+            colunmIdObj = new ObjectId(colunmId);
+            columnService.editColunm(colunmTitle, colunmIdObj);
+        }
+
+        return cardIdObj != null ? cardService.getCardById(cardIdObj) : null;
+    }
+
 }
