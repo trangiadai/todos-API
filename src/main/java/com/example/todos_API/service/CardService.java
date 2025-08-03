@@ -58,5 +58,10 @@ public class CardService {
         card.setTitle(title);
         return cardRepository.save(card);
     }
+    public void deleteCard(ObjectId cardId){
+        Card card = getCardById(cardId);
+        cardRepository.delete(card);
+
+    }
 
 }
